@@ -1,5 +1,4 @@
 import os
-
 import cv2
 import numpy as np
 from modelscope.outputs import OutputKeys
@@ -39,7 +38,7 @@ def convert_image_to_white_background(image: np.ndarray = None):
         return None
 
 
-def crop_image_by_alpha_channel(input_image: np.ndarray | str, output_path: str):
+def crop_image_by_alpha_channel(input_image: np.ndarray, output_path: str):
     img_array = cv2.imread(input_image, cv2.IMREAD_UNCHANGED) if isinstance(input_image, str) else input_image
     if img_array.shape[2] != 4:
         raise ValueError("Input image must have an alpha channel")
