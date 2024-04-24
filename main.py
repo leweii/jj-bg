@@ -39,6 +39,19 @@ def convert_image_to_white_background(image: np.ndarray = None):
         return None
 
 
+def crop_image_by_alpha_channel(input_image: np.ndarray | str, output_path: str):
+    img_array = cv2.imread(input_image, cv2.IMREAD_UNCHANGED) if isinstance(input_image, str) else input_image
+    if img_array.shape[2] != 4:
+        raise ValueError("Input image must have an alpha channel")
+
+    alpha_channel = img_array[:, :, 3]
+    bbox = cv2.boundingRect(alpha_channel)
+    x, y, w, h = bbox
+    cropped_img_array = img_array[y:y + h, x:x + w]
+    cv2.imwrite(output_path, cropped_img_array)
+    return output_path
+
+
 if __name__ == '__main__':
     image_bytes = open("./upload/1.png", "rb").read()
     img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_UNCHANGED)
@@ -47,7 +60,7 @@ if __name__ == '__main__':
         raise Exception()
     universal_matting = pipeline(Tasks.universal_matting, model='damo/cv_unet_universal-matting')
     result = universal_matting(final_img)
-    cv2.imwrite(os.path.join(OUTPUT_FOLDER, "1.output.png"), result[OutputKeys.OUTPUT_IMG])
-    cv2.imwrite(os.path.join(OUTPUT_FOLDER, "1.output.png"), result[OutputKeys.OUTPUT_IMG][:, :, 3])
+    cv2.imwrite(os.path.join(OUTPUT_FOLDER, "1.whiteboard.png"), result[OutputKeys.OUTPUT_IMG])
+    cv2.imwrite(os.path.join(OUTPUT_FOLDER, "1.mask.png"), result[OutputKeys.OUTPUT_IMG][:, :, 3])
     # result = universal_matting('https://modelscope.oss-cn-beijing.aliyuncs.com/demo/image-matting/1.png')
     # cv2.imwrite('result.png', result[OutputKeys.OUTPUT_IMG])
