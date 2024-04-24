@@ -1,0 +1,9 @@
+jinja2
+modelscope
+opencv-python
+python-multipart
+sentencepiece
+tensorflow
+torch
+transformers
+uvicorn
