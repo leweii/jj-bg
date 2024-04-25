@@ -1,10 +1,9 @@
 jinja2
-modelscope~=1.13.3
-opencv-python~=4.9.0.80
+modelscope>=1.10.0
+opencv-python
 python-multipart
-sentencepiece
+sentencepiece==0.1.*
 tensorflow
-torch
-transformers
+torch==2.1.2
+transformers==4.36.2
 uvicorn
-numpy~=1.26.4

@@ -1,20 +1,13 @@
-FROM python:3.10
+FROM lewei/jj-bg
 
-WORKDIR /app
+WORKDIR /app2
 
-COPY . /app
+COPY . /app2
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 8000
+VOLUME /app2/upload
+VOLUME /app2/output
+VOLUME /app2/background
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx \
-    tzdata && \
-    ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
-    dpkg-reconfigure -f noninteractive tzdata && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-CMD ["python", "main.py"]
+CMD ["sh", "-c", "while true; do sleep 3600; done"]

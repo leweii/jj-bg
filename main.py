@@ -5,8 +5,8 @@ from modelscope.outputs import OutputKeys
 from modelscope.pipelines import pipeline
 from modelscope.utils.constant import Tasks
 
-UPLOAD_FOLDER = "./upload"
-OUTPUT_FOLDER = "./output"
+UPLOAD_FOLDER = "/app2/upload"
+OUTPUT_FOLDER = "/app2/output"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
