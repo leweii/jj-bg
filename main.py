@@ -141,6 +141,9 @@ if __name__ == '__main__':
                 # cropped_img = crop_image_by_alpha_channel(result_img[OutputKeys.OUTPUT_IMG])
                 cropped_img = result_img[OutputKeys.OUTPUT_IMG]
                 cv2.imwrite(output_path, cropped_img)
+                if not output_path.lower().endswith('.png'):
+                    output_path = os.path.splitext(output_path)[0] + ".png"
+                    cv2.imwrite(output_path, cropped_img)
 
                 background_file_names = get_all_file_names(BACKGROUND_FOLDER)  # 更新文件路径列表
                 executed_wbg_file_names = get_all_file_names(OUTPUT_W_BACKGROUND_FOLDER)  # 更新文件路径列表
@@ -150,14 +153,14 @@ if __name__ == '__main__':
                     continue
                 for bg_file in background_file_names:
                     bg_img = cv2.imread(os.path.join(BACKGROUND_FOLDER, bg_file))
-                    img_png = cv2.imread(output_path, cv2.IMREAD_UNCHANGED)
+                    png_img = cv2.imread(output_path, cv2.IMREAD_UNCHANGED)
                     # 计算img2放置的位置
-                    y1 = (bg_img.shape[0] - img_png.shape[0]) // 2
-                    x1 = (bg_img.shape[1] - img_png.shape[1]) // 2
-                    y2 = y1 + img_png.shape[0]
-                    x2 = x1 + img_png.shape[1]
+                    y1 = (bg_img.shape[0] - png_img.shape[0]) // 2
+                    x1 = (bg_img.shape[1] - png_img.shape[1]) // 2
+                    y2 = y1 + png_img.shape[0]
+                    x2 = x1 + png_img.shape[1]
 
-                    res_img = merge_img(bg_img, img_png, y1, y2, x1, x2)
+                    res_img = merge_img(bg_img, png_img, y1, y2, x1, x2)
 
                     # 显示合并后的图像
                     cv2.imwrite(os.path.join(OUTPUT_W_BACKGROUND_FOLDER, file), res_img)
